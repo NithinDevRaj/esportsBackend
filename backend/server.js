@@ -7,12 +7,12 @@ import cors from "cors";
 import userRoutes from "./routes/userRoutes.js";
 import adminRoutes from "./routes/adminRoutes.js";
 import playerRoutes from "./routes/playerRoutes.js";
-import messageRoutes from "./routes/messageRoute.js"
+import messageRoutes from "./routes/messageRoute.js";
 import { errorHandler, notFound } from "./middlewares/errorMiddleware.js";
 import Chat from "./model/chatSchema.js";
 import connectDB from "./config/db.js";
-import { Server as SocketServer } from "socket.io"; // Corrected import
-import http from "http"; // Import the http module
+import { Server as SocketServer } from "socket.io";
+import http from "http"; 
 
 const PORT = process.env.PORT || 5000;
 
@@ -24,12 +24,12 @@ const app = express();
 const server = http.createServer(app); // Create an HTTP server
 const io = new SocketServer(server, {
   cors: {
-    origin: "http://localhost:4000",
+    origin:process.env.CLIENT_URL,
     credentials: true,
   },
 }); // Initialize Socket.IO on the server
 
-const allowedOrigins = ["http://localhost:4000"];
+const allowedOrigins = [process.env.CLIENT_URL];
 
 app.use(
   cors({
@@ -52,7 +52,6 @@ app.use("/api/user", userRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/player", playerRoutes);
 app.use("/api/message", messageRoutes);
-
 
 app.get("/", (req, res) => {
   res.json("server started");
@@ -80,7 +79,7 @@ io.on("connection", (socket) => {
         message: message.message,
       });
       await responseMessage.save();
-      
+
       io.emit("message", message);
     } catch (error) {
       console.log(error.message);
