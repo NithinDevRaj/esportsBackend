@@ -24,12 +24,12 @@ const app = express();
 const server = http.createServer(app); // Create an HTTP server
 const io = new SocketServer(server, {
   cors: {
-    origin:process.env.CLIENT_URL,
+    origin:"https://www.progamersyndicate.live",
     credentials: true,
   },
 }); // Initialize Socket.IO on the server
 
-const allowedOrigins = [process.env.CLIENT_URL];
+const allowedOrigins = ["https://www.progamersyndicate.live"];
 
 app.use(
   cors({
