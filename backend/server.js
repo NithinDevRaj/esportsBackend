@@ -12,7 +12,7 @@ import { errorHandler, notFound } from "./middlewares/errorMiddleware.js";
 import Chat from "./model/chatSchema.js";
 import connectDB from "./config/db.js";
 import { Server as SocketServer } from "socket.io";
-import http from "http"; 
+import http from "http";
 
 const PORT = process.env.PORT || 5000;
 
@@ -20,11 +20,11 @@ const PORT = process.env.PORT || 5000;
 connectDB();
 
 const app = express();
-console.log(process.env.CLIENT_URL)
+console.log(process.env.CLIENT_URL);
 const server = http.createServer(app); // Create an HTTP server
 const io = new SocketServer(server, {
   cors: {
-    origin:process.env.CLIENT_URL,
+    origin: process.env.CLIENT_URL,
     credentials: true,
   },
 }); // Initialize Socket.IO on the server
@@ -62,7 +62,6 @@ app.use(errorHandler);
 
 server.listen(PORT, () => {
   console.log(`server is started @${PORT}`);
-
 });
 
 // Socket.IO
@@ -86,6 +85,4 @@ io.on("connection", (socket) => {
       console.log(error.message);
     }
   });
-
- 
 });
