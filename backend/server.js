@@ -20,16 +20,16 @@ const PORT = process.env.PORT || 5000;
 connectDB();
 
 const app = express();
-
+console.log(process.env.CLIENT_URL)
 const server = http.createServer(app); // Create an HTTP server
 const io = new SocketServer(server, {
   cors: {
-    origin:"https://www.progamersyndicate.live",
+    origin:process.env.CLIENT_URL,
     credentials: true,
   },
 }); // Initialize Socket.IO on the server
 
-const allowedOrigins = ["https://www.progamersyndicate.live"];
+const allowedOrigins = [process.env.CLIENT_URL];
 
 app.use(
   cors({
@@ -54,14 +54,15 @@ app.use("/api/player", playerRoutes);
 app.use("/api/message", messageRoutes);
 
 app.get("/", (req, res) => {
-  res.json("server started");
+  res.json("server is running");
 });
 
 app.use(notFound);
 app.use(errorHandler);
 
 server.listen(PORT, () => {
-  console.log(`server is running @${PORT}`);
+  console.log(`server is started @${PORT}`);
+
 });
 
 // Socket.IO
@@ -86,7 +87,5 @@ io.on("connection", (socket) => {
     }
   });
 
-  // socket.on("disconnect", () => {
-  //   console.log(`Socket ${socket.id} disconnected`);
-  // });
+ 
 });
