@@ -3,7 +3,7 @@ import User from "../model/userModel.js";
 import generateToken from "../utils/generatToken.js";
 import googleOAuth from "../utils/googleOAuth.js";
 import { sendEmail } from "../middlewares/otpValidation.js";
-
+console.log( 'nithin')
 // @desc  Auth User/set token
 // route  POST  /api/users/login
 const loginUser = asyncHandler(async (req, res) => {
