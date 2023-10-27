@@ -30,7 +30,7 @@ const io = new SocketServer(server, {
 }); // Initialize Socket.IO on the server
 
 const allowedOrigins = [process.env.CLIENT_URL];
-
+console.log("enabled cors")
 app.use(
   cors({
     origin: function (origin, callback) {
