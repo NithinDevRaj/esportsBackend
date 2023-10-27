@@ -7,7 +7,7 @@ console.log( 'nithin')
 // @desc  Auth User/set token
 // route  POST  /api/users/login
 const loginUser = asyncHandler(async (req, res) => {
-  console.log(req.body);
+  
   const { email, password } = req.body;
 
   // Input Validation
