@@ -13,7 +13,7 @@ import Chat from "./model/chatSchema.js";
 import connectDB from "./config/db.js";
 import { Server as SocketServer } from "socket.io";
 import http from "http";
-
+import bodyParser from "body-parser";
 const PORT = process.env.PORT || 5000;
 
 // Connecting to MongoDB
@@ -30,7 +30,6 @@ const io = new SocketServer(server, {
 }); // Initialize Socket.IO on the server
 
 const allowedOrigins = [process.env.CLIENT_URL];
-console.log("enabled cors")
 app.use(
   cors({
     origin: function (origin, callback) {
@@ -42,6 +41,19 @@ app.use(
     },
   })
 );
+// Adjusting the request size limit
+app.use(bodyParser.json({ limit: "50mb" }));
+app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
+
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept, Authorization"
+  );
+  next();
+});
 
 app.use(methodOverride("_method"));
 app.use(express.json());
@@ -67,9 +79,6 @@ server.listen(PORT, () => {
 // Socket.IO
 io.on("connection", (socket) => {
   console.log(`Socket ${socket.id} connected`);
-  // socket.on("login", ({name, room}, callback) => {
-  // console.log(name,room)
-  // })
 
   socket.on("sendMessage", async (message) => {
     try {
