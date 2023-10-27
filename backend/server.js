@@ -41,6 +41,7 @@ app.use(
     },
   })
 );
+app.options("*", cors());
 // Adjusting the request size limit
 app.use(bodyParser.json({ limit: "50mb" }));
 app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
