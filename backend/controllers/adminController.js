@@ -564,6 +564,7 @@ const onGoingRecruitmentUserSide = asyncHandler(async (req, res) => {
 
 const demotePlayer = asyncHandler(async (req, res) => {
   const { id } = req.query;
+  console.log(id)
 });
 export {
   getUserData,
