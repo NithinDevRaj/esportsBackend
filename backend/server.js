@@ -14,7 +14,7 @@ import connectDB from "./config/db.js";
 import { Server as SocketServer } from "socket.io";
 import http from "http";
 import bodyParser from "body-parser";
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 6000;
 
 // Connecting to MongoDB
 connectDB();

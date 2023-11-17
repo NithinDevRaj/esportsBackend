@@ -37,31 +37,33 @@ const updateProfile = asyncHandler(async (req, res) => {
 });
 
 const acceptRecruitment = asyncHandler(async (req, res) => {
-  const file = req.file;
-  console.log(file);
+  // const file = req.file;
+  // console.log(file);
+  console.log("nithinraj ssss");
   const { recruitMentID, user_id, teamId } = req.body;
+  console.log(req.body);
   console.log(user_id);
-  if (!file) {
-    return res.status(400).json({ message: "No file uploaded" });
-  }
+  // if (!file) {
+  //   return res.status(400).json({ message: "No file uploaded" });
+  // }
 
-  if (!/\.(mp4|mov|avi|wmv|flv|mkv)$/i.test(file.originalname)) {
-    return res.status(400).json({ message: "Invalid file format" });
-  }
+  // if (!/\.(mp4|mov|avi|wmv|flv|mkv)$/i.test(file.originalname)) {
+  //   return res.status(400).json({ message: "Invalid file format" });
+  // }
 
-  const videoPath = file.path;
+  // const videoPath = file.path;
 
-  const response = await saveVideo(videoPath);
-  if (response) {
-    await Recruit.updateOne(
-      { _id: recruitMentID },
-      { $push: { acceptedBy: user_id } }
-    );
-  }
+  // const response = await saveVideo(videoPath);
+  // if (response) {
+  await Recruit.updateOne(
+    { _id: recruitMentID },
+    { $push: { acceptedBy: user_id } }
+  );
+  // }
 
-  if (!response) {
-    return res.status(500).json({ message: "Error uploading video " });
-  }
+  // if (!response) {
+  //   return res.status(500).json({ message: "Error uploading video " });
+  // }
 
   const recruit = await Recruit.findOne({ _id: recruitMentID });
 
@@ -71,7 +73,7 @@ const acceptRecruitment = asyncHandler(async (req, res) => {
   console.log("recruit", recruit);
 
   const acceptedRecruit = await AcceptRecruit.create({
-    video: response.secure_url,
+    // video: response.secure_url,
     recruitId: recruit._id,
     userId: user_id,
     accept: true,
@@ -110,13 +112,28 @@ const getProfile = asyncHandler(async (req, res) => {
   }
 });
 
-
-const getSchedule = asyncHandler(async(req,res)=>{
-  console.log("nithin")
+const getSchedule = asyncHandler(async (req, res) => {
+  console.log("nithin");
   const schedule = await Schedules.find().populate();
   res.status(200).json({
-    data:schedule,
-    message:"succsess"
-  })
-})
-export { updateProfile, acceptRecruitment, getStream, getProfile,getSchedule };
+    data: schedule,
+    message: "succsess",
+  });
+});
+
+const getUser = asyncHandler(async (req, res) => {
+  const { ID } = req.query;
+  console.log(req.query);
+  const user = await User.findOne({ _id: ID });
+  if (user) {
+    res.status(200).json({ data: user });
+  }
+});
+export {
+  updateProfile,
+  acceptRecruitment,
+  getStream,
+  getProfile,
+  getSchedule,
+  getUser,
+};

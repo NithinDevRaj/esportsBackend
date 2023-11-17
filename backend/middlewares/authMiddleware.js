@@ -17,7 +17,7 @@ const protect = asyncHandler(async (req, res, next) => {
       // Find the user associated with the token's userId
       // Exclude the password field from the user object for security
       req.user = await User.findById(decoded.userId).select("-password");
-
+       console.log(req.user)
       // Continue to the next middleware or route handler
       next();
     } catch (error) {

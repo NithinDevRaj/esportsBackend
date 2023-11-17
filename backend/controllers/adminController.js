@@ -211,7 +211,7 @@ const getAcceptedRecruitment = asyncHandler(async (req, res) => {
 const createPlayer = asyncHandler(async (req, res) => {
   try {
     const { userId, role, salary, teamId, AcceptRecruitId } = req.body;
-
+    console.log(req.body);
     // Check if the user exists
     const user = await User.findOne({ _id: userId });
     if (!user) {
@@ -220,9 +220,10 @@ const createPlayer = asyncHandler(async (req, res) => {
     }
 
     // Update the user's role to "player"
+    console.log("user", user);
     user.role = "player";
-    await user.save();
-
+    // await user.save();
+    console.log("nithin is bullshit");
     // Create a new player
     const newPlayer = await Player.create({
       userId: user._id,
@@ -230,7 +231,9 @@ const createPlayer = asyncHandler(async (req, res) => {
       salary,
       teamId,
     });
-
+    console.log(newPlayer);
+    console.log("newplayer", newPlayer);
+    console.log("naihdofihroih");
     // Associate the user with the player
     user.playerId = newPlayer._id;
     await user.save();
@@ -564,7 +567,22 @@ const onGoingRecruitmentUserSide = asyncHandler(async (req, res) => {
 
 const demotePlayer = asyncHandler(async (req, res) => {
   const { id } = req.query;
-  console.log(id)
+  console.log(id);
+
+  const player = await Player.findByIdAndDelete(id);
+  console.log(player);
+  if (player) {
+    const userId = player.userId;
+    await User.findByIdAndUpdate(userId, { role: "fan" });
+
+    const result = await Team.updateMany(
+      { players: userId },
+      { $pull: { players: userId } }
+    );
+    if (result) {
+      res.status(200).json({ message: "successs", result });
+    }
+  }
 });
 export {
   getUserData,

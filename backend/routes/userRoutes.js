@@ -9,7 +9,7 @@ import {
   sentOtpRegister,
   googleAuth,
 } from "../controllers/authController.js";
-import { acceptRecruitment, getProfile, getSchedule, getStream } from "../controllers/fansController.js";
+import { acceptRecruitment, getProfile, getSchedule, getStream, getUser } from "../controllers/fansController.js";
 import { updateProfile } from "../controllers/fansController.js";
 import { upload, videoUpload } from "../middlewares/multer.js";
 import { protect } from "../middlewares/authMiddleware.js";
@@ -37,9 +37,10 @@ router.post("/google-auth", googleAuth);
 
 //profile update
 
-router.post("/profile", upload.single("profilePhoto"), updateProfile);
+router.post("/profile",protect, upload.single("profilePhoto"), updateProfile);
 router.patch("/profile",getProfile)
-router.patch("/accept-recruit", videoUpload.single("file"), acceptRecruitment);
+router.patch("/accept-recruit", acceptRecruitment);
 router.get("/getStreams",getStream)
 router.get("/schedule",getSchedule)
+router.get("/auth",getUser)
 export default router;

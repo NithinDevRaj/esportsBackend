@@ -34,10 +34,6 @@ import mongoose from "mongoose";
 // Define the User Schema
 const AcceptRecruitSchema = mongoose.Schema(
   {
-    video: {
-      type: String,
-      required: true,
-    },
     recruitId: {
       type: mongoose.Types.ObjectId,
       ref: "Recruit",
