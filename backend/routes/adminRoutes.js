@@ -43,9 +43,11 @@ router.patch("/recruit", deleteRecruits);
 router.get("/player", getPlayer);
 router.get("/team", getTeamBasedOnVacancy);
 router.post("/highlight", videoUpload.single("video"), addHighlight);
+
 router.post("/schedule", createShedule);
 router.get("/schedule", getSchedule);
 router.delete("/schedule", deleteSchedules);
+
 router.get("/highlight", getHighlight);
 router.delete("/highlight", deleteHighlightHandler);
 router.put("/schedule", editSchedule);

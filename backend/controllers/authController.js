@@ -6,6 +6,7 @@ import { sendEmail } from "../middlewares/otpValidation.js";
 console.log( 'nithin')
 // @desc  Auth User/set token
 // route  POST  /api/users/login
+
 const loginUser = asyncHandler(async (req, res) => {
   
   const { email, password } = req.body;
@@ -18,6 +19,7 @@ const loginUser = asyncHandler(async (req, res) => {
 
   // Find the user by email
   const user = await User.findOne({ email });
+  
   console.log(user);
   if (user.block) {
     res.status(401).json({ message: "Your account is blocked" });

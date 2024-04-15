@@ -32,6 +32,7 @@ const blockOrUnblockUser = asyncHandler(async (req, res) => {
   }
 });
 const createTeam = asyncHandler(async (req, res) => {
+
   const { team, strength } = req.body;
   const existingTeam = await Team.findOne({ team });
   if (existingTeam) {
@@ -61,6 +62,8 @@ const createTeam = asyncHandler(async (req, res) => {
     throw new Error("Cant create a team right now");
   }
 });
+
+
 const getTeams = asyncHandler(async (req, res) => {
   const { query } = req.body;
   const userQuery = {};
@@ -584,6 +587,7 @@ const demotePlayer = asyncHandler(async (req, res) => {
     }
   }
 });
+
 export {
   getUserData,
   blockOrUnblockUser,
