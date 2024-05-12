@@ -94,8 +94,10 @@ io.on("connection", (socket) => {
       await responseMessage.save();
 
       io.emit("message", message);
+      
     } catch (error) {
       console.log(error.message);
     }
   });
 });
+
